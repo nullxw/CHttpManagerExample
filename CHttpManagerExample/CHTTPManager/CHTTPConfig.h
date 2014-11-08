@@ -10,4 +10,8 @@
 
 @interface CHTTPConfig : NSObject
 
++ (NSString*)urlEncode:(NSString*)str;
++ (NSString *)md5StringFromString:(NSString *)string;
++ (NSString *)appVersionString;
++ (long long)defaultCacheVersion;
 @end

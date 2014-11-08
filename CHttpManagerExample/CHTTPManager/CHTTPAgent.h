@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CHTTPBaseRequest.h"
+#import "CHTTPRequest.h"
 @interface CHTTPAgent : NSObject
 
 

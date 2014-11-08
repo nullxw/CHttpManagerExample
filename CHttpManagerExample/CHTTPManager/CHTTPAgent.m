@@ -149,19 +149,25 @@
     CHTTPBaseRequest *request = _requestsRecord[key];
 //    request.requestOperation = operation;
     if (request && !error) {
+        [request requestCompleteFilter];
+        [request toggleRequestWillStop];
         CJSONLOG(@"请求成功 请求地址: %@", request.requestUrl);
         if (request.successCompletionBlock) {
             request.successCompletionBlock(request);
         }
+        [request toggleRequestDidStop];
     }else{
         if (error  && error.code == -999) {
             CJSONLOG(@"用户取消请求");
             return;
         }
+        [request requestFailFilter];
+        [request toggleRequestWillStop];
         CJSONLOG(@"请求失败 :%@",error? error.description : @"");
         if (request.failureCompletionBlock) {
             request.failureCompletionBlock(request);
         }
+        [request toggleRequestDidStop];
     }
     [self removeOperation:operation];
     [request clearCompletionBlock];

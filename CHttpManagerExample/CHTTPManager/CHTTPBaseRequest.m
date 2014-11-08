@@ -9,17 +9,61 @@
 #import "CHTTPBaseRequest.h"
 #import "CHTTPAgent.h"
 
+
 @implementation CHTTPBaseRequest
 
 
 #pragma mark - 方法
 
+- (void)toggleRequestWillStart{
+    for (id<CHTTPRequestAccessory> accessory in self.requestAccessories) {
+        if ([accessory respondsToSelector:@selector(requestWillStart:)]) {
+            [accessory requestWillStart:self];
+        }
+    }
+}
+- (void)toggleRequestWillStop{
+    for (id<CHTTPRequestAccessory> accessory in self.requestAccessories) {
+        if ([accessory respondsToSelector:@selector(requestWillStop:)]) {
+            [accessory requestWillStop:self];
+        }
+    }
+}
+
+- (void)toggleRequestDidStop{
+    for (id<CHTTPRequestAccessory> accessory in self.requestAccessories) {
+        if ([accessory respondsToSelector:@selector(requestDidStop:)]) {
+            [accessory requestDidStop:self];
+        }
+    }
+}
+
+- (void)addAccessory:(id<CHTTPRequestAccessory>)accessory {
+    if (!self.requestAccessories) {
+        self.requestAccessories = [NSMutableArray array];
+    }
+    [self.requestAccessories addObject:accessory];
+}
+
+
+- (void)requestCompleteFilter{
+    //主类 什么不做 留给子类重写
+}
+
+- (void)requestFailFilter{
+    //主类 什么不做 留给子类重写
+}
+
+
 - (void)start{
+    [self toggleRequestWillStart];
     [[CHTTPAgent sharedInstance] addRequest:self];
 }
 
 - (void)stop{
+    [self toggleRequestWillStop];
     [[CHTTPAgent sharedInstance] cancelRequest:self];
+    [self toggleRequestDidStop];
 }
 
 - (void)startWithCompleteBlock:(void (^)(CHTTPBaseRequest *request))successBlock failBlock:(void (^)(CHTTPBaseRequest *request))failedBlock{

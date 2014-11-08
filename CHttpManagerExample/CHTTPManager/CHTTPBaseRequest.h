@@ -6,12 +6,6 @@
 //  Copyright (c) 2014年 wood-spring. All rights reserved.
 //
 
-
-
-
-
-
-
 #ifdef DEBUG
 #   define CJSONLOG(__FORMAT__, ...) NSLog(__FORMAT__, ##__VA_ARGS__)
 #else
@@ -37,6 +31,18 @@ typedef NS_ENUM(NSInteger , CHTTPRequestSerializerType) {
 
 typedef void(^CHTTPConstructionBodyBlock)(id<AFMultipartFormData> formData);
 typedef void (^CHTTPDownloadProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
+
+
+//声明协议,主要用于处理提示等处理
+@protocol CHTTPRequestAccessory <NSObject>
+
+@optional
+- (void)requestWillStart:(id)request;
+- (void)requestWillStop:(id)request;
+- (void)requestDidStop:(id)request;
+
+@end
+
 
 @interface CHTTPBaseRequest : NSObject
 
@@ -105,6 +111,13 @@ typedef void (^CHTTPDownloadProgressBlock)(AFDownloadRequestOperation *operation
 
 - (NSString *)completeRequestUrl;
 
+- (void)toggleRequestWillStart;
+- (void)toggleRequestWillStop;
+- (void)toggleRequestDidStop;
+
+#pragma mark - 请求完成后处理,需要子类重写,用来请求完成后缓存
+- (void)requestCompleteFilter;
+- (void)requestFailFilter;
 
 
 #pragma mark - 请求返回的结果

@@ -26,6 +26,8 @@
 		4104D9D51A0CABDA0015E7CD /* CHTTPBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104D9D41A0CABDA0015E7CD /* CHTTPBaseRequest.m */; };
 		4104D9D81A0CAF500015E7CD /* CHTTPAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104D9D71A0CAF500015E7CD /* CHTTPAgent.m */; };
 		4104D9DC1A0CBE480015E7CD /* AFDownloadRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4104D9DB1A0CBE480015E7CD /* AFDownloadRequestOperation.m */; };
+		DC4211061A0E1791007D74F6 /* CHTTPConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4211051A0E1791007D74F6 /* CHTTPConfig.m */; };
+		DC4211091A0E1B2A007D74F6 /* CHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4211081A0E1B2A007D74F6 /* CHTTPRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,10 @@
 		4104D9D71A0CAF500015E7CD /* CHTTPAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTTPAgent.m; sourceTree = "<group>"; };
 		4104D9DA1A0CBE480015E7CD /* AFDownloadRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDownloadRequestOperation.h; sourceTree = "<group>"; };
 		4104D9DB1A0CBE480015E7CD /* AFDownloadRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDownloadRequestOperation.m; sourceTree = "<group>"; };
+		DC4211041A0E1791007D74F6 /* CHTTPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTTPConfig.h; sourceTree = "<group>"; };
+		DC4211051A0E1791007D74F6 /* CHTTPConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTTPConfig.m; sourceTree = "<group>"; };
+		DC4211071A0E1B2A007D74F6 /* CHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTTPRequest.h; sourceTree = "<group>"; };
+		DC4211081A0E1B2A007D74F6 /* CHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTTPRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +198,10 @@
 				4104D9D41A0CABDA0015E7CD /* CHTTPBaseRequest.m */,
 				4104D9D61A0CAF500015E7CD /* CHTTPAgent.h */,
 				4104D9D71A0CAF500015E7CD /* CHTTPAgent.m */,
+				DC4211041A0E1791007D74F6 /* CHTTPConfig.h */,
+				DC4211051A0E1791007D74F6 /* CHTTPConfig.m */,
+				DC4211071A0E1B2A007D74F6 /* CHTTPRequest.h */,
+				DC4211081A0E1B2A007D74F6 /* CHTTPRequest.m */,
 			);
 			path = CHTTPManager;
 			sourceTree = "<group>";
@@ -306,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4104D9C91A0CAA230015E7CD /* AFHTTPRequestOperation.m in Sources */,
+				DC4211061A0E1791007D74F6 /* CHTTPConfig.m in Sources */,
 				4104D9D51A0CABDA0015E7CD /* CHTTPBaseRequest.m in Sources */,
 				4104D9981A0CA9F40015E7CD /* ViewController.m in Sources */,
 				4104D9CA1A0CAA230015E7CD /* AFHTTPRequestOperationManager.m in Sources */,
@@ -316,6 +327,7 @@
 				4104D9CD1A0CAA230015E7CD /* AFSecurityPolicy.m in Sources */,
 				4104D9CB1A0CAA230015E7CD /* AFHTTPSessionManager.m in Sources */,
 				4104D9CF1A0CAA230015E7CD /* AFURLRequestSerialization.m in Sources */,
+				DC4211091A0E1B2A007D74F6 /* CHTTPRequest.m in Sources */,
 				4104D9D11A0CAA230015E7CD /* AFURLSessionManager.m in Sources */,
 				4104D9951A0CA9F40015E7CD /* AppDelegate.m in Sources */,
 				4104D9921A0CA9F40015E7CD /* main.m in Sources */,
@@ -444,6 +456,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CHttpManagerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -454,6 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = CHttpManagerExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -512,6 +526,7 @@
 				4104D9B11A0CA9F40015E7CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4104D9B21A0CA9F40015E7CD /* Build configuration list for PBXNativeTarget "CHttpManagerExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +535,7 @@
 				4104D9B41A0CA9F40015E7CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

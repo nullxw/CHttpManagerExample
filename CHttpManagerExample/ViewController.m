@@ -10,7 +10,9 @@
 #import "AFNetworking.h"
 #import "CHTTPAgent.h"
 @interface ViewController ()
-
+{
+    CHTTPRequest *_request;
+}
 @end
 
 @implementation ViewController
@@ -19,20 +21,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    CHTTPBaseRequest *request = [[CHTTPBaseRequest alloc] init];
-    [request setTag:@"test"];
-    [request setRequestUrl:@"http://www.yooomy.com/index.php/api/8da5388b9cc146ffd63ed9fa981db69b/guide.lists?city=185&range=1&keyword=&page=1"];
-    [request startWithCompleteBlock:^(CHTTPBaseRequest *request) {
+    _request = [[CHTTPRequest alloc] init];
+    [_request setTag:@"test"];
+    [_request setRequestUrl:@"http://www.yooomy.com/index.php/api/8da5388b9cc146ffd63ed9fa981db69b/guide.lists?city=185&range=1&keyword=&page=1"];
+}
+- (IBAction)startRequest:(id)sender {
+    [_request startWithCompleteBlock:^(CHTTPBaseRequest *request) {
         CJSONLOG(@"this is success");
     } failBlock:^(CHTTPBaseRequest *request) {
         CJSONLOG(@"this is fail");
     }];
-    [[CHTTPAgent sharedInstance] cancelRequestWithTag:@"test"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)stopRequest:(id)sender {
+    [_request stop];
+    //或者
+//    [[CHTTPAgent sharedInstance] cancelRequest:_request];
+
+}
+- (IBAction)stopRequestWithTag:(id)sender {
+    [[CHTTPAgent sharedInstance] cancelRequestWithTag:@"test"];
 }
 
 @end
