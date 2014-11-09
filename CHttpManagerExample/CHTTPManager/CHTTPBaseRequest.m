@@ -66,15 +66,15 @@
     [self toggleRequestDidStop];
 }
 
-- (void)startWithCompleteBlock:(void (^)(CHTTPBaseRequest *request))successBlock failBlock:(void (^)(CHTTPBaseRequest *request))failedBlock{
-    self.successCompletionBlock = successBlock;
-    self.failureCompletionBlock = failedBlock;
+- (void)startWithCompleteBlock:(CHTTPSuccessBlock)successBlock failBlock:(CHTTPFailBlock)failedBlock{
+    self.successBlock = successBlock;
+    self.failBlock = failedBlock;
     [self start];
 }
 
 - (void)clearCompletionBlock{
-    self.successCompletionBlock = nil;
-    self.failureCompletionBlock = nil;
+    self.successBlock = nil;
+    self.failBlock = nil;
 }
 
 - (NSString *)completeRequestUrl{

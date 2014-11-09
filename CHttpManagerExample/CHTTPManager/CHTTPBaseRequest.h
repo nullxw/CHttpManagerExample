@@ -32,6 +32,9 @@ typedef NS_ENUM(NSInteger , CHTTPRequestSerializerType) {
 typedef void(^CHTTPConstructionBodyBlock)(id<AFMultipartFormData> formData);
 typedef void (^CHTTPDownloadProgressBlock)(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile);
 
+@class CHTTPBaseRequest;
+typedef void (^CHTTPSuccessBlock)(CHTTPBaseRequest *request);
+typedef void (^CHTTPFailBlock)(CHTTPBaseRequest *request);
 
 //声明协议,主要用于处理提示等处理
 @protocol CHTTPRequestAccessory <NSObject>
@@ -104,7 +107,7 @@ typedef void (^CHTTPDownloadProgressBlock)(AFDownloadRequestOperation *operation
 // 取消请求,移除队列
 - (void)stop;
 
-- (void)startWithCompleteBlock:(void (^)(CHTTPBaseRequest *request))successBlock failBlock:(void (^)(CHTTPBaseRequest *request))failedBlock;
+- (void)startWithCompleteBlock:(CHTTPSuccessBlock)successBlock failBlock:(CHTTPFailBlock)failedBlock;
 
 //移除block 防止循环引用
 - (void)clearCompletionBlock;
@@ -135,10 +138,10 @@ typedef void (^CHTTPDownloadProgressBlock)(AFDownloadRequestOperation *operation
 @property (nonatomic, assign,readonly) NSInteger responseStatusCode;
 
 //请求成功block
-@property (nonatomic, copy) void (^successCompletionBlock)(CHTTPBaseRequest *request);
+@property (nonatomic, copy) CHTTPSuccessBlock successBlock;
 
 //请求失败Block
-@property (nonatomic, copy) void (^failureCompletionBlock)(CHTTPBaseRequest *request);
+@property (nonatomic, copy) CHTTPFailBlock failBlock;
 
 //判断请求是否正在执行
 @property (nonatomic, assign, readonly) BOOL isExecuting;

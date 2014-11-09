@@ -12,8 +12,9 @@
 
 //是否忽略缓存
 @property (nonatomic) BOOL ignoreCache;
-@property (nonatomic) NSInteger cacheTimeInSeconds;
+@property (nonatomic) NSTimeInterval cacheTimeInSeconds;
 @property (nonatomic) long long cacheVersion;
+@property (nonatomic,copy,readonly) NSString* cacheKey;
 
 // 是否当前的数据从缓存获得
 - (BOOL)isDataFromCache;

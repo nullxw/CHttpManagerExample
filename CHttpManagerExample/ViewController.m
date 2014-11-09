@@ -9,6 +9,9 @@
 #import "ViewController.h"
 #import "AFNetworking.h"
 #import "CHTTPAgent.h"
+#import "CHTTPCache.h"
+#import "CHTTPManager.h"
+
 @interface ViewController ()
 {
     CHTTPRequest *_request;
@@ -20,27 +23,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    _request = [[CHTTPRequest alloc] init];
-    [_request setTag:@"test"];
-    [_request setRequestUrl:@"http://www.yooomy.com/index.php/api/8da5388b9cc146ffd63ed9fa981db69b/guide.lists?city=185&range=1&keyword=&page=1"];
 }
 - (IBAction)startRequest:(id)sender {
-    [_request startWithCompleteBlock:^(CHTTPBaseRequest *request) {
-        CJSONLOG(@"this is success");
+    
+     _request = [CHTTPManager chttp_getWithUrl:@"http://www.yooomy.com/index.php/api/8da5388b9cc146ffd63ed9fa981db69b/guide.lists?city=185&range=1&keyword=&page=1" cahceSeconds:30 successBlock:^(CHTTPBaseRequest *request) {
+         CJSONLOG(@"this is success");
+         NSLog(@"this is request respionse %@",request.responseJSONObject);
+         NSLog(@"this is data From Cache %d",[(CHTTPRequest*)request isDataFromCache]);
     } failBlock:^(CHTTPBaseRequest *request) {
         CJSONLOG(@"this is fail");
     }];
+    
 }
 
 - (IBAction)stopRequest:(id)sender {
-    [_request stop];
     //或者
-//    [[CHTTPAgent sharedInstance] cancelRequest:_request];
+    [[CHTTPAgent sharedInstance] cancelRequest:_request];
 
 }
 - (IBAction)stopRequestWithTag:(id)sender {
-    [[CHTTPAgent sharedInstance] cancelRequestWithTag:@"test"];
+    //you can send a request with test then cancel it
+//    [[CHTTPAgent sharedInstance] cancelRequestWithTag:@"test"];
 }
 
 @end

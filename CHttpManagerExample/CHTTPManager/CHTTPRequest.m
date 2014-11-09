@@ -8,6 +8,7 @@
 
 #import "CHTTPRequest.h"
 #import "CHTTPConfig.h"
+#import "CHTTPCache.h"
 
 @implementation CHTTPRequest{
     BOOL _isDataFromCache;
@@ -19,18 +20,13 @@
     self = [super init];
     if (self) {
         self.cacheVersion = [CHTTPConfig defaultCacheVersion];
+        self.cacheTimeInSeconds = 0;
     }
     return self;
 }
 
 - (void)start{
     //如果忽略缓存使用startWithCache
-    
-    //缓存版本是否过期
-    if ([self isCacheVersionExpired]) {
-        [super start];
-        return;
-    }
     
     //缓存时间是否缓存时间为0
     if (self.cacheTimeInSeconds == 0 ) {
@@ -44,6 +40,13 @@
         return;
     }
     
+    //缓存版本是否过期
+    if ([self isCacheVersionExpired]) {
+        [super start];
+        return;
+    }
+
+    
     //判断缓存时间是否过期
     if ([self isCacheExpired]) {
         [super start];
@@ -52,7 +55,8 @@
     
     //使用缓存
     _isDataFromCache = YES;
-    self.successCompletionBlock(self);
+    _cacheObject = [[CHTTPCache shareInstance] objectForKey:self.cacheKey];
+    self.successBlock(self);
     [self clearCompletionBlock];
 }
 
@@ -64,7 +68,7 @@
     
 }
 
-#pragma mark - 私有方法
+#pragma mark - 私有方法列表
 - (void)startWithoutCache{
     [super start];
 }
@@ -81,35 +85,29 @@
     return _isDataFromCache;
 }
 
+- (NSString *)cacheKey{
+    return [[CHTTPConfig cachePrefix] stringByAppendingString:[CHTTPConfig md5StringFromString:self.completeRequestUrl]];
+}
 
 // 判断缓存版本是否过期
 - (BOOL)isCacheVersionExpired{
-    long long cacheVersionFileContent = [self cacheContetnVersion];
-    if (cacheVersionFileContent != [self cacheVersion]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-// 获取缓存中的版本
-- (long long)cacheContetnVersion {
-    return 0;
+    return [[CHTTPCache shareInstance] isCacheVerionExpiredForKey:self.cacheKey cacheVersion:self.cacheVersion];
 }
 
 // 判断缓存时间是否过期
 - (BOOL)isCacheExpired{
-    return YES;
+    return [[CHTTPCache shareInstance] isCacheTimeExpiredForKey:self.cacheKey cacheSeconds:self.cacheTimeInSeconds];
 }
 
 // 判断缓存是否存在
 - (BOOL)isCacheExist{
-    return NO;
+    return [[CFileUtils shareInstance] isFileExistWithFileName:self.cacheKey filePathType:CCachePath];
 }
 
 #pragma mark - 将数据写入缓存中
 - (void)saveJsonResponseToCacheFile:(id)jsonResponse{
-    
+    [[CHTTPCache shareInstance] cacheObject:jsonResponse forKey:self.cacheKey];
+    [[CHTTPCache shareInstance] setCacheVersion:self.cacheVersion forKey:self.cacheKey];
 }
 
 @end

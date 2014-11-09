@@ -62,5 +62,7 @@
     return 1;
 }
 
-
++ (NSString *)cachePrefix{
+    return @"cache_";
+}
 @end

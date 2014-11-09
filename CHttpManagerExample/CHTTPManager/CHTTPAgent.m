@@ -152,8 +152,8 @@
         [request requestCompleteFilter];
         [request toggleRequestWillStop];
         CJSONLOG(@"请求成功 请求地址: %@", request.requestUrl);
-        if (request.successCompletionBlock) {
-            request.successCompletionBlock(request);
+        if (request.successBlock) {
+            request.successBlock(request);
         }
         [request toggleRequestDidStop];
     }else{
@@ -164,8 +164,8 @@
         [request requestFailFilter];
         [request toggleRequestWillStop];
         CJSONLOG(@"请求失败 :%@",error? error.description : @"");
-        if (request.failureCompletionBlock) {
-            request.failureCompletionBlock(request);
+        if (request.failBlock) {
+            request.failBlock(request);
         }
         [request toggleRequestDidStop];
     }
@@ -174,7 +174,9 @@
 }
 
 - (void)cancelRequest:(CHTTPBaseRequest *)request{
-    [request.requestOperation cancel];
+    if (request.isExecuting) {
+        [request.requestOperation cancel];
+    }
     [self removeOperation:request.requestOperation];
     [request clearCompletionBlock];
 }
