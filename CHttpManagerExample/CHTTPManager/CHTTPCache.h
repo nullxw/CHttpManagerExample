@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "CFileUtils.h"
 @interface CHTTPCache : NSObject
+
 
 +(CHTTPCache*)shareInstance;
 
