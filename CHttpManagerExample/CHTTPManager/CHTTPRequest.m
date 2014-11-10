@@ -53,9 +53,14 @@
         return;
     }
     
+    _cacheObject = [[CHTTPCache shareInstance] objectForKey:self.cacheKey];
+    if (!_cacheObject){
+        [super start];
+        return;
+    }
+    
     //使用缓存
     _isDataFromCache = YES;
-    _cacheObject = [[CHTTPCache shareInstance] objectForKey:self.cacheKey];
     self.successBlock(self);
     [self clearCompletionBlock];
 }

@@ -34,7 +34,12 @@
 }
 
 - (id)objectForKey:(NSString *)key{
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[[CFileUtils shareInstance] fullFileNameWithShortName:key filePathType:CCachePath]];
+    NSString *fullName = [[CFileUtils shareInstance] fullFileNameWithShortName:key filePathType:CCachePath];
+    if ([[CFileUtils shareInstance] isFileExistWithFileName:key filePathType:CCachePath]) {
+        return [NSKeyedUnarchiver unarchiveObjectWithFile:fullName];
+    }else{
+        return nil;
+    }
 }
 
 - (void)cacheObject:(id<NSCoding>)object forKey:(NSString *)key{
